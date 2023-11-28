@@ -27,7 +27,10 @@ class OpenAIProps(BaseModel):
     return_json: Optional[dict] = {"type": "json_object"}
     
 
-def get_chat_response(props: OpenAIProps, message_list: list, return_json: bool = False) -> str:
+def get_llm_response(props: OpenAIProps, message_list: list, return_json: bool = False) -> str:
+    if props.model.gpt4v and return_json:
+        raise ValueError("GPT4V does not have return_json capability.")
+    
     response = client.chat.completions.create(
         model=props.model,
         temperature=props.temperature,
