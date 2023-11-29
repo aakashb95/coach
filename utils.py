@@ -4,6 +4,7 @@ from src.llm import get_llm_response, OpenAIProps, ModelName
 
 async def construct_reply(message: discord.Message):
 
+    # TODO: add prompt switcher?
     message_list = [
         {"role":"system", "content":GENERIC_SYSTEM_PROMPT},
     ]
@@ -19,6 +20,8 @@ async def construct_reply(message: discord.Message):
     return reply
 
 async def get_context(message: discord.Message):
+
+    #TODO: what if there are images? deal with it differently, use different prompts
     context = []
     async for msg in message.channel.history(limit=50):
         if msg.author.bot:
