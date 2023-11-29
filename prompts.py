@@ -1,0 +1,1 @@
+GENERIC_SYSTEM_PROMPT = '''You are a helpful assistant. Assist the user with their query. Be crisp, smart, maybe funny in your reply.'''

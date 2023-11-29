@@ -5,6 +5,8 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import hupper
 
+from utils import construct_reply
+
 load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -18,7 +20,8 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 async def on_message(message: discord.Message):
     if message.author.bot:
         return
-    await message.reply("Hi")
+    reply = await construct_reply(message=message)
+    await message.reply(reply)
 
 def run_bot():
     asyncio.run(bot.start(BOT_TOKEN))
