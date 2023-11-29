@@ -12,8 +12,6 @@ async def construct_reply(message: discord.Message):
         temperature=1,
         model=ModelName.gpt3,
     )
-    print(message_list)
     reply = get_llm_response(props=props, message_list=message_list)
-    print(reply)
     return reply
 
