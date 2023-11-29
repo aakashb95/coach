@@ -3,10 +3,13 @@ from prompts import GENERIC_SYSTEM_PROMPT
 from src.llm import get_llm_response, OpenAIProps, ModelName
 
 async def construct_reply(message: discord.Message):
+
     message_list = [
         {"role":"system", "content":GENERIC_SYSTEM_PROMPT},
-        {"role": "user", "content": message.content}
     ]
+    context = await get_context(message)
+
+    message_list += context
 
     props = OpenAIProps(
         temperature=1,
@@ -15,3 +18,14 @@ async def construct_reply(message: discord.Message):
     reply = get_llm_response(props=props, message_list=message_list)
     return reply
 
+async def get_context(message: discord.Message):
+    context = []
+    async for msg in message.channel.history(limit=50):
+        if msg.author.bot:
+            assistant = {"role": "assistant", "content": msg.content}
+            context.append(assistant)
+        else:
+            user = {"role":"user", "content":msg.content}
+            context.append(user)
+    
+    return context[::-1]
